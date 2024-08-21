@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<script>
+			function save() {
+				let codeLocalValue =
+					document.querySelector('#codeLocal').value;
+				let codeSessionValue =
+					document.querySelector('#codeSession').value;
+				console.log(codeLocalValue,codeSessionValue);
+				
+				localStorage.setItem('code',codeLocalValue);
+				sessionStorage.setItem('code',codeSessionValue);
+				
+				location.href="/web2";
+			}
+		</script>
+	</head>
+	<body>
+		<p>localStorage와 sessionStorage에 저장</p>
+		<div>
+			<p>localStorage<input type="text" id="codeLocal"></p>
+			<p>sessionStorage<input type="text" id="codeSession"></p>
+			<p><input type="button" onclick="save()" value="저장"></p>
+		</div>
+	</body>
+</html>
