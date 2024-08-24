@@ -1,8 +1,0 @@
-package com.dsa.web5.entity;
-
-/**
- * 게시글 엔티티
- */
-public class BoardEntity {
-
-}
