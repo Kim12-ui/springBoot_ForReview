@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>AJAX1</title>
+	<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/ajax1.js}"></script>
+</head>
+<body>
+	<!-- 
+		AJAX(Asynchronous Javascript and XML) :
+			웹페이지에서 동적으로 데이터를 주고받은 수 있게 해주는 기능
+			- 비동기 통신 (Asunchronous Javascript and XML)
+				: 웹페이지가 서버에 요청을 보내고 응답을 받을 때,
+				  페이지 전체를 새로고침하지 않고도 필요한 데이터만을 받아와
+				  페이지 일부를 업데이트
+			- 요청과 결과의 처리가 동시에 이루어지지 않고, 요청을 보낸 뒤 결과가
+			  준비되면 나중에 그 결과를 처리하는 방식
+	 -->
+	<h1>[ AJAX1 ]</h1>
+	
+	<p><a href="javascript:test1()">서버로 Ajax 요청 보내기</a></p>
+	<p><a href="javascript:test2()">서버로 문자열 보내기</a></p>
+	<p><a href="javascript:test3()">서버에서 문자열 받기</a></p>
+	
+	<p><a href="javascript:test4()">값 전달하여 계산하기1</a></p>
+	<p>
+		<input type="text" id="num1">
+		+
+		<input type="text" id="num2">
+		=
+		<input type="text" id="num3">
+	</p>
+	<br>
+	
+	<p><a href="javascript:test5()">값 전달하여 계산하기2</a></p>
+	<p>
+		<input type="text" id="num4">
+		/
+		<input type="text" id="num5">
+		=
+		<input type="text" id="num6">
+	</p>
+	<br>
+	
+	<p>값 전달하여 계산하기3</p>
+	<p>
+		<input type="text" id="num7">
+		<select id="op">
+			<option value="">연산자 선택</option>
+			<option value="+">+</option>
+			<option value="-">-</option>
+			<option value="*">*</option>
+			<option value="/">/</option>
+		</select>
+		<input type="text" id="num8">
+		<button id="equalsButton">=</button>
+		<input type="text" id="num9">
+	</p>
+	<br>
+</body>
+</html>

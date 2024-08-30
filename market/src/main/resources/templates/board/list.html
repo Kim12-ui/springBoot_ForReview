@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<title>게시판</title>
+	<style>
+	th, td {
+	text-align : center;
+	}
+	</style>
+	<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script>
+		$(document).ready(function() {
+
+		});
+	</script>
+</head>
+<body>
+	<h1>[ 거래 게시판 ]</h1>
+	
+	<table>
+		<tr>
+			<td>
+				<a sec:authorize="isAuthenticated()" 
+				th:href="@{/board/write}">글쓰기</a>				
+			</td>
+			<td colspan="6"></td>
+		</tr>
+		<tr>
+			<th>
+				검색조건
+			</th>
+			<td colspan="2">
+				<select id="category" name="category">
+					<option value="카테고리" th:selected="${searchType == '카테고리'}">전체 카테고리 보기</option>
+					<option value="컴퓨터" th:selected="${searchType == '컴퓨터'}">컴퓨터</option>
+					<option value="자동차" th:selected="${searchType == '자동차'}">자동차</option>
+					<option value="카메라" th:selected="${searchType == '카메라'}">카메라</option>
+				</select>
+			</td>
+			<td colspan="4"></td>
+		</tr>
+		<tr>
+			<th>번호</th>
+			<th>상태</th>
+			<th>카테고리</th>
+			<th style="width : 300px;">제목</th>
+			<th>판매가격</th>
+			<th style="width : 100px;">작성자</th>
+			<th style="width : 200px;">작성일</th>
+		</tr>
+		<tr th:each="board:${boardList}">
+			<td th:text="${board.boardNum}"></td>
+			<td th:text="${board.soldout}"></td>
+			<td th:text="${board.category}"></td>
+			<td>
+				<a th:text="${board.title}"
+				   th:href="@{/board/read(boardNum=${board.boardNum})}"></a>
+			</td>
+			<td th:text="${board.price}"></td>
+			<td th:text="${board.memberId}"></td>
+			<td th:text="${board.inputDate}"></td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<title>회원가입</title>
+	<!-- jQuery 파일 불러오기 -->
+	<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script>
+		$(document).ready(function() {
+			$('#joinform').submit(validation);
+			$('#openButton').click(idWindowOpen);
+		});
+		
+		function validation() {
+			// 변수 설정
+			let id = $('#memberId').val();
+			let pw = $('#memberPassword').val();
+			let name = $('#memberName').val();
+			
+			// 유효성 검사
+			if (id.length < 3 || id.length > 10) {
+				alert('ID는 3~10자로 입력하세요.');
+				return false;
+			}
+			if (pw.length < 3 || pw.length > 10) {
+				alert('비밀번호는 3~10자로 입력하세요.');
+				return false;
+			}
+			if (name=='') {
+				alert('이름을 입력하세요.');
+				return false;
+			}
+			
+			// 모든 경우의 수가 충족되었을 떄 
+			return true;
+		}
+
+		// ID 중복 확인창 열기
+		function idWindowOpen() {
+			let w = window.open('idCheck','idwin','top=200,left=500,width=400,height=300');
+		}
+	</script>
+</head>
+<body>
+	<h1>[ 회원가입 ]</h1>
+	<form id="joinform" th:action="@{join}" method="post">
+		<table>
+			<tr>
+				<th>ID</th>
+				<td>
+					<input type="text" id="memberId" name="memberId"
+					readonly="readonly">
+					<input type="button" id="openButton" value="ID중복확인">
+				</td>
+			</tr>
+			<tr>
+				<th>PASSWORD</th>
+				<td>
+					<input type="password" id="memberPassword"
+					name="memberPassword">
+				</td>
+			</tr>
+			<tr>
+				<th>이름</th>
+				<td>
+					<input type="text" name="memberName" id="memberName">
+				</td>
+			</tr>
+			<tr>
+				<th>전화번호</th>
+				<td>
+					<input type="text" name="phone" id="phone">
+				</td>
+			</tr>
+		</table>
+		<button type="submit">가입</button>
+	</form>
+</body>
+</html>

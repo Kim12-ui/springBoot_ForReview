@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/ajax2.js}"></script>
+</head>
+<body>
+	<h1>[ Ajax 테스트2 - 객체 보내기/받기 ]</h1>
+	
+	<p>1. 서버로 각각의 Parameter 전달</p>
+	<form>
+		이름 <input type="text" id="name1">	<br>
+		나이 <input type="number" id="age1">	<br>
+		전화 <input type="text" id="phone1"> <br>
+		<input type="button" id="formButton1" value="저장">
+	</form>
+	
+	<p>2. 서버로 DTO객체 전달 1</p>
+	<form>
+		이름 <input type="text" id="name2">	<br>
+		나이 <input type="number" id="age2">	<br>
+		전화 <input type="text" id="phone2"> <br>
+		<input type="button" id="formButton2" value="저장">
+	</form>
+	
+	<p>3. 서버로 DTO객체 전달 2</p>
+	<form id="writeForm3">
+		이름 <input type="text" id="name3"  name="name">	 <br>
+		나이 <input type="number" id="age3" name="age">	 <br>
+		전화 <input type="text" id="phone3" name="phone"> <br>
+		<input type="button" id="formButton3" value="저장">
+	</form>
+	
+	<p>4. 서버로부터 DTO객체의 값을 String으로 받기</p>
+	<p><input type="button" id="bt1" value="서버에서 객체 받기"></p>
+	<div id="outputDiv1"></div>
+	
+	<p>5. 서버로부터 DTO객체의 값을 JSON으로 받기</p>
+	<p><input type="button" id="bt2" value="서버에서 객체 받기"></p>
+	<div id="outputDiv2"></div>
+	
+	<p>6. 서버로부터 리스트 받기</p>
+	<p><input type="button" id="bt3" value="서버에서 리스트 받기"></p>
+	<div id="outputDiv3"></div>
+	
+	<p>7. 서버로 배열 보내기</p>
+	<p><input type="button" id="bt4" value="서버로 배열 보내기"></p>
+	
+	<p>8. 서버로 객체 배열 보내기</p>
+	<p><input type="button" id="bt5" value="서버로 객체배열 보내기"></p>
+	<div id="outputDiv4"></div>
+</body>
+</html>

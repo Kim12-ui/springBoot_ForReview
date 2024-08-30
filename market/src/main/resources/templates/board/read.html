@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<title>게시판</title>
+	<style>
+		th, td {
+			text-align : left;
+		}
+	</style>
+	<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script>
+		$(document).ready(function() {
+			// 글 삭제
+			$('#deleteButton').click(function() {
+				let boardNum = $(this).data('num');
+				
+				// 삭제 확인 메시지
+			    if (confirm("삭제하시겠습니까?")) {
+			        // 사용자가 '확인'을 누른 경우
+			        location.href = "delete?boardNum=" + boardNum;
+			    } else {
+			        // 사용자가 '취소'를 누른 경우
+			        alert("삭제가 취소되었습니다.");
+			    }
+			});
+			
+			// 물건 구매
+			$('#buyButton').click(function() {
+				let boardNum = $(this).data('num');
+				
+				// 삭제 확인 메시지
+			    if (confirm("구매하시겠습니까?")) {
+			        // 사용자가 '확인'을 누른 경우
+			        location.href = "buy?boardNum=" + boardNum;
+			    } else {
+			        // 사용자가 '취소'를 누른 경우
+			        alert("구매가 취소되었습니다.");
+			    }
+			});
+		});
+	</script>
+</head>
+<body>
+<h1>[ 판매상품 상세보기 ]</h1>
+
+			<table>
+				<tr>
+					<th>번호</th>
+					<td th:text="${board.boardNum}"></td>
+				</tr>
+				<tr>
+					<th>판매자</th>
+					<td th:text="${board.memberId}"></td>
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td th:text="${board.title}"></td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td><pre th:text="${board.contents}"></pre></td>
+				</tr>
+				<tr>
+					<th>판매가격</th>
+					<td th:text="${board.price}"></td>
+				</tr>
+				<tr>
+					<th>상태</th>
+					<td th:text="${board.soldout}"></td>
+				</tr>
+				<tr>
+					<th>구매자</th>
+					<td>
+						<span th:text="${board.buyerId}"></span>
+					</td>
+				</tr>
+				<tr>
+					<th></th>
+					<td>
+					<div th:if="${#authentication.name == board.memberId}">
+						<input type="button" value="삭제하기" 
+						id="deleteButton" th:data-num="${board.boardNum}">
+					</div>
+					<div th:if="${#authentication.name != board.memberId} and ${#authentication.name != board.buyerId} and ${board.buyerId == null}">
+						<input type="button" value="구매하기"
+						id="buyButton" th:data-num="${board.boardNum}">
+					</div>
+					</td>
+				</tr>
+			</table>
+
+			<br>
+</body>
+</html>
