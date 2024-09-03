@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<title>게시판</title>
+	<style>
+		th {
+			text-align: left;
+			padding: 8px;
+			width: 80px;
+		}
+		pre {
+			width: 300px;
+			word-wrap: break-word;
+			white-space: break-spaces;
+		}
+	</style>
+	<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script>
+		$(document).ready(function() {
+			//리플 목록 조회
+			replyList();
+
+			//구매 버튼
+			$('#buyButton').click(function() {
+				if (confirm('구매하시겠습니까?')) {
+					let boardNum = $('#boardNum').text();
+					location.href = 'buy?boardNum=' + boardNum;
+				}
+			});
+
+			//삭제 버튼
+			$('#deleteButton').click(function() {
+				if (confirm('판매글을 삭제하시겠습니까?')) {
+					let boardNum = $('#boardNum').text();
+					location.href = 'delete?boardNum=' + boardNum;
+				}
+			});
+
+			//리플 작성 버튼
+			$('#replyWriteButton').click(function() {
+				let boardNum = $('#boardNum').text();
+				let replyText = $('#replyText').val();
+
+				$.ajax({
+					url : 'replyWrite',
+					type: 'post',
+					data : {boardNum: boardNum, replyText: replyText},
+					success : function() {
+						$('#replyText').val('');
+						replyList();
+					},
+					error : function(e) {
+						alert('리플 목록 조회 실패');
+					}
+				});
+			});
+
+		});
+
+		//리플 목록 조회
+		function replyList() {
+			$.ajax({
+				url: 'replyList',
+				type: 'get',
+				data : {boardNum: $('#boardNum').text()},
+				dataType: 'json',
+				success: function(list) {
+
+					$('#replyTable').empty();
+					$(list).each(function(idx, reply) {
+						let html = `
+							<tr>
+								<th>${reply.replyNum}</th>
+								<td style="width: 100px;">${reply.memberId}</td>
+								<td style="width: 250px;">${reply.replyText}</td>
+								<td>
+						`;
+
+						if (reply.memberId == '[[${#authentication.name}]]') {
+							html += `
+								<button class="replyDeleteButton" data-replynum="${reply.replyNum}" data-boardnum="${reply.boardNum}">
+									삭제
+								</button>
+							`;
+						}
+
+						html += `</td></tr>`;
+						$('#replyTable').append(html);
+
+						$('.replyDeleteButton').click(replyDelete);
+					});
+				}
+			});
+		}
+
+		//리플 삭제
+		function replyDelete() {
+			let replyNum = $(this).data('replynum');
+			let boardNum = $(this).data('boardnum');
+
+			$.ajax({
+				url : 'replyDelete',
+				type: 'post',
+				data : { replyNum: replyNum, boardNum: boardNum},
+				success: function() {
+					alert('삭제되었습니다.');
+					replyList();
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+<h1>[ 판매상품 상세보기 ]</h1>
+
+<!-- 글정보 보기-->
+<table>
+	<tr>
+		<th>번호</th>
+		<td id="boardNum" th:text="${board.boardNum}"></td>
+	</tr>
+	<tr>
+		<th>판매자</th>
+		<td th:text="${board.memberId}"></td>
+	</tr>
+	<tr>
+		<th>카테고리</th>
+		<td th:text="${board.category}"></td>
+	</tr>
+	<tr>
+		<th>제목</th>
+		<td th:text="${board.title}"></td>
+	</tr>
+	<tr>
+		<th>내용</th>
+		<td>
+			<pre th:text="${board.contents}"></pre></td>
+		</tr>
+		<tr>
+			<th>판매가격</th>
+			<td th:text="${board.price}"></td>
+		</tr>
+		<tr>
+			<th>상태</th>
+			<td th:text="${board.soldout ? '판매완료' : '판매중'}"></td>
+		</tr>
+		<tr>
+			<th>구매자</th>
+			<td th:text="${board.buyerId != null ? board.buyerId : ''}"></td>
+		</tr>
+		<tr>
+			<th></th>
+			<td>
+				<button type="button" th:if="${!board.soldout and #authentication.name != board.memberId}" id="buyButton">구매하기</button>
+				<button type="button" th:if="${#authentication.name == board.memberId}" id="deleteButton">삭제하기</button>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<div>
+		<!-- 리플 작성 폼 시작 -->
+		<form>
+			리플입력
+			<input type="text" id="replyText" style="width:500px;">
+			<button type="button" id="replyWriteButton">저장</button>
+		</form>
+	</div>
+	<br>
+	<!-- 리플 목록 출력 시작 -->
+	<table class="reply" id="replyTable">
+
+	</table>
+
+</body>
+</html>

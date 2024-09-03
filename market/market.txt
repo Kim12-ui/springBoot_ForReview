@@ -14,7 +14,7 @@ create table market_board (
 		title varchar(200) not null,
 		contents varchar(2000) not null,
 		price int default 0,
-		soldout tinyint default 0 check (soldout in (0,1)),
+		soldout tinyint(1) default 0 check (soldout in (0,1)),
 		buyer_id varchar(20),
 		input_date timestamp default current_timestamp,
 		constraint foreign key (member_id) references market_member(member_id),
